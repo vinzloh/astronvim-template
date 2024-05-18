@@ -66,26 +66,6 @@ return {
   {
     "yioneko/nvim-vtsls",
     lazy = false,
-    -- dependencies = {
-    --   "AstroNvim/astrocore",
-    --   opts = {
-    --     autocmds = {
-    --       nvim_vtsls = {
-    --         {
-    --           event = "LspAttach",
-    --           desc = "Load nvim-vtsls with vtsls",
-    --           callback = function(args)
-    --             if assert(vim.lsp.get_client_by_id(args.data.client_id)).name == "vtsls" then
-    --               require("vtsls")._on_attach(args.data.client_id, args.buf)
-    --               vim.api.nvim_del_augroup_by_name "nvim_vtsls"
-    --             end
-    --           end,
-    --         },
-    --       },
-    --     },
-    --   },
-    -- },
-    -- config = function(_, opts) require("vtsls").config(opts) end,
   },
   {
     "vuki656/package-info.nvim",
@@ -97,11 +77,19 @@ return {
     "lewis6991/gitsigns.nvim",
     event = "User AstroGitFile",
     opts = {
-      current_line_blame = true,
-      current_line_blame_formatter_opts = {
-        relative_time = true,
-      },
+      -- current_line_blame = true,
+      -- current_line_blame_formatter_opts = {
+      --   relative_time = true,
+      -- },
       signcolumn = true,
+    },
+  },
+  {
+    "f-person/git-blame.nvim",
+    event = "User AstroGitFile",
+    opts = {
+      date_format = "%r",
+      use_blame_commit_file_urls = true,
     },
   },
 }
