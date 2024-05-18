@@ -102,6 +102,7 @@ return {
   },
   {
     "folke/edgy.nvim",
+    event = "InsertEnter",
     init = function()
       vim.opt.laststatus = 3
       vim.opt.splitkeep = "screen"
