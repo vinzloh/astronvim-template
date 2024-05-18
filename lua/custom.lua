@@ -92,5 +92,20 @@ return {
       date_format = "%r",
       use_blame_commit_file_urls = true,
     },
+    keys = {
+      { "<Leader>go", ":GitBlameOpenCommitURL<cr>", desc = "Open commit URL" },
+    },
+  },
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+    keys = {
+      { "<Leader>xx", ":TroubleToggle<cr>", desc = "Toggle Trouble" },
+    },
   },
 }
