@@ -78,10 +78,6 @@ return {
     "lewis6991/gitsigns.nvim",
     event = "User AstroGitFile",
     opts = {
-      -- current_line_blame = true,
-      -- current_line_blame_formatter_opts = {
-      --   relative_time = true,
-      -- },
       signcolumn = true,
     },
   },
@@ -99,13 +95,95 @@ return {
   {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    },
+    opts = {},
     keys = {
       { "<Leader>xx", ":TroubleToggle<cr>", desc = "Toggle Trouble" },
+    },
+  },
+  {
+    "folke/edgy.nvim",
+    init = function()
+      vim.opt.laststatus = 3
+      vim.opt.splitkeep = "screen"
+    end,
+    dependencies = {
+      {
+        "AstroNvim/astrocore",
+        opts = {
+          mappings = {
+            n = {
+              ["<Leader>e"] = {
+                function() require("edgy").toggle() end,
+                desc = "Toggle Sidebars",
+              },
+            },
+          },
+        },
+      },
+    },
+    opts = {
+      options = {
+        left = { size = 40 },
+        bottom = { size = 10 },
+        right = { size = 30 },
+        top = { size = 10 },
+      },
+      exit_when_last = true,
+      top = {},
+      bottom = {},
+      left = {
+        {
+          title = "Files",
+          ft = "neo-tree",
+          filter = function(buf) return vim.b[buf].neo_tree_source == "filesystem" end,
+          pinned = true,
+          open = "Neotree position=left filesystem",
+          size = { height = 0.5 },
+        },
+        {
+          title = "Git Status",
+          ft = "neo-tree",
+          filter = function(buf) return vim.b[buf].neo_tree_source == "git_status" end,
+          pinned = true,
+          open = "Neotree position=right git_status",
+        },
+        {
+          title = "Buffers",
+          ft = "neo-tree",
+          filter = function(buf) return vim.b[buf].neo_tree_source == "buffers" end,
+          pinned = true,
+          open = "Neotree position=top buffers",
+        },
+        -- "neo-tree",
+      },
+      right = {
+        -- {
+        --   ft = "aerial",
+        --   title = "Symbol Outline",
+        --   pinned = true,
+        --   open = function() require("aerial").toggle() end,
+        -- },
+      },
+      keys = {
+        -- increase width
+        ["<C-Right>"] = function(win) win:resize("width", 2) end,
+        -- decrease width
+        ["<C-Left>"] = function(win) win:resize("width", -2) end,
+        -- increase height
+        ["<C-Up>"] = function(win) win:resize("height", 2) end,
+        -- decrease height
+        ["<C-Down>"] = function(win) win:resize("height", -2) end,
+      },
+    },
+  },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    optional = true,
+    opts = {
+      source_selector = {
+        winbar = false,
+        statusline = false,
+      },
     },
   },
 }
