@@ -39,13 +39,6 @@ return {
             end
           end,
         },
-        {
-          event = "BufEnter",
-          nested = true,
-          callback = function()
-            if require("resession").get_current() ~= nil then require("edgy").open() end
-          end,
-        },
       },
     },
     -- Configure core features of AstroNvim
