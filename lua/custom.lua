@@ -169,6 +169,7 @@ return {
   },
   {
     "folke/edgy.nvim",
+    enabled = false,
     event = "InsertEnter",
     init = function()
       vim.opt.laststatus = 3
@@ -222,16 +223,8 @@ return {
           pinned = true,
           open = "Neotree position=top buffers",
         },
-        -- "neo-tree",
       },
-      right = {
-        -- {
-        --   ft = "aerial",
-        --   title = "Symbol Outline",
-        --   pinned = true,
-        --   open = function() require("aerial").toggle() end,
-        -- },
-      },
+      right = {},
       keys = {
         -- increase width
         ["<C-Right>"] = function(win) win:resize("width", 2) end,
@@ -246,11 +239,38 @@ return {
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
-    optional = true,
     opts = {
-      source_selector = {
-        winbar = false,
-        statusline = false,
+      -- source_selector = {
+      --   winbar = false,
+      --   statusline = false,
+      -- },
+      -- event_handlers = {
+      --   {
+      --     event = "vim_after_session_load",
+      --     handler = function()
+      --       vim.notify "vim_after_session_load"
+      --       -- require("edgy").toggle() -- NOTE: open all 3 - files, git, buffers
+      --       -- vim.cmd.Neotree "dir=./" -- NOTE: sync up vim cwd with neotree
+      --     end,
+      --   },
+      -- },
+    },
+    dependencies = {
+      {
+        "AstroNvim/astrocore",
+        opts = {
+          mappings = {
+            n = {
+              ["<Leader>o"] = {
+                function()
+                  -- require("neo-tree.command").execute { action = "show" }
+                  vim.cmd.Neotree "dir=./" -- NOTE: sync up vim cwd with neotree
+                end,
+                desc = "Refresh Sidebar",
+              },
+            },
+          },
+        },
       },
     },
   },
