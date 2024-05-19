@@ -261,12 +261,16 @@ return {
         opts = {
           mappings = {
             n = {
+              ["<Leader>xc"] = {
+                desc = "Restart TypeScript Server",
+                function() vim.cmd.VtsExec "restart_tsserver" end,
+              },
               ["<Leader>o"] = {
+                desc = "Refresh Sidebar",
                 function()
                   -- require("neo-tree.command").execute { action = "show" }
                   vim.cmd.Neotree "dir=./" -- NOTE: sync up vim cwd with neotree
                 end,
-                desc = "Refresh Sidebar",
               },
             },
           },
