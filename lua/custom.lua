@@ -272,6 +272,10 @@ return {
                   vim.cmd.Neotree "dir=./" -- NOTE: sync up vim cwd with neotree
                 end,
               },
+              ["<Leader>to"] = {
+                desc = "Open terminal cwd",
+                function() vim.fn.jobstart "alacritty" end,
+              },
               ["<Leader>xc"] = {
                 desc = "TypeScript: Restart Server",
                 function() vim.cmd.VtsExec "restart_tsserver" end,
