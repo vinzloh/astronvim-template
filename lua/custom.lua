@@ -261,9 +261,9 @@ return {
         opts = {
           mappings = {
             n = {
-              ["<Leader>xc"] = {
-                desc = "Restart TypeScript Server",
-                function() vim.cmd.VtsExec "restart_tsserver" end,
+              ["<Leader>k"] = {
+                desc = "Keymaps",
+                function() require("telescope.builtin").keymaps() end,
               },
               ["<Leader>o"] = {
                 desc = "Refresh Sidebar",
@@ -272,9 +272,13 @@ return {
                   vim.cmd.Neotree "dir=./" -- NOTE: sync up vim cwd with neotree
                 end,
               },
-              ["<Leader>k"] = {
-                desc = "Keymaps",
-                function() require("telescope.builtin").keymaps() end,
+              ["<Leader>xc"] = {
+                desc = "TypeScript: Restart Server",
+                function() vim.cmd.VtsExec "restart_tsserver" end,
+              },
+              ["<Leader>xo"] = {
+                desc = "TypeScript: Organize Imports",
+                function() vim.cmd.VtsExec "organize_imports" end,
               },
             },
           },
