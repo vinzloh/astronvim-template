@@ -1,6 +1,72 @@
 ---@type LazySpec
 return {
   {
+    "AstroNvim/astrocore",
+    ---@type AstroCoreOpts
+    opts = {
+
+      options = {
+        opt = { -- vim.opt.<key>
+          relativenumber = false, -- sets vim.opt.relativenumber
+          number = true, -- sets vim.opt.number
+          spell = false, -- sets vim.opt.spell
+          signcolumn = "auto", -- sets vim.opt.signcolumn to auto
+          wrap = false, -- sets vim.opt.wrap
+        },
+      },
+
+      -- Mappings can be configured through AstroCore as well.
+      -- NOTE: keycodes follow the casing in the vimdocs. For example, `<Leader>` must be capitalized
+      mappings = {
+        -- first key is the mode
+        n = {
+          ["<Leader>SF"] = {
+            desc = "Load a workspace",
+            function()
+              -- NOTE: if neo-tree open when load dirsession, buffer crash
+              require("neo-tree.command").execute { action = "close" }
+              require("resession").load(nil, { dir = "dirsession" })
+            end,
+          },
+        },
+      },
+
+      -- Configuration table of session options for AstroNvim's session management powered by Resession
+      sessions = {
+        -- Configure auto saving
+        autosave = {
+          last = true, -- auto save last session
+          cwd = true, -- auto save session for each working directory
+        },
+        -- Patterns to ignore when saving sessions
+        ignore = {
+          dirs = {}, -- working directories to ignore sessions in
+          filetypes = { "gitcommit", "gitrebase" }, -- filetypes to ignore sessions
+          buftypes = {}, -- buffer types to ignore sessions
+        },
+      },
+      autocmds = {
+        -- disable alpha autostart
+        alpha_autostart = false,
+        restore_session = {
+          {
+            event = "VimEnter",
+            desc = "Restore previous directory session if neovim opened with no arguments",
+            nested = true, -- trigger other autocommands as buffers open
+            callback = function()
+              -- Only load the session if nvim was started with no args
+              if vim.fn.argc(-1) == 0 then
+                -- try to load a directory session using the current working directory
+                require("resession").load(vim.fn.getcwd(), { dir = "dirsession", silence_errors = true })
+                require("resession").load("Last Session", { silence_errors = true })
+              end
+            end,
+          },
+        },
+      },
+    },
+  },
+  {
     "AstroNvim/astrolsp",
     ---@type AstroLSPOpts
     opts = {
@@ -61,6 +127,7 @@ return {
   },
   {
     "jay-babu/mason-null-ls.nvim",
+    lazy = true,
     opts = function(_, opts)
       -- add more things to the ensure_installed table protecting against community packs modifying it
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
