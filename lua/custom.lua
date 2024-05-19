@@ -272,6 +272,10 @@ return {
                   vim.cmd.Neotree "dir=./" -- NOTE: sync up vim cwd with neotree
                 end,
               },
+              ["<Leader>k"] = {
+                desc = "Keymaps",
+                function() require("telescope.builtin").keymaps() end,
+              },
             },
           },
         },
