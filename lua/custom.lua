@@ -135,6 +135,7 @@ return {
       })
     end,
   },
+  -- TODO: `package.json` - open dep repo url
   {
     "vuki656/package-info.nvim",
     dependencies = { "MunifTanjim/nui.nvim" },
@@ -162,6 +163,7 @@ return {
   {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
+    -- NOTE: `opts = {}` is the same as calling `require('trouble').setup({})`
     opts = {},
     keys = {
       { "<Leader>xx", ":TroubleToggle<cr>", desc = "Toggle Trouble" },
@@ -240,17 +242,17 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
+      -- NOTE: for edgy
       -- source_selector = {
       --   winbar = false,
       --   statusline = false,
       -- },
+
       -- event_handlers = {
       --   {
       --     event = "vim_after_session_load",
       --     handler = function()
       --       vim.notify "vim_after_session_load"
-      --       -- require("edgy").toggle() -- NOTE: open all 3 - files, git, buffers
-      --       -- vim.cmd.Neotree "dir=./" -- NOTE: sync up vim cwd with neotree
       --     end,
       --   },
       -- },
@@ -262,6 +264,7 @@ return {
           mappings = {
             n = {
               ["<Leader>k"] = {
+                -- TODO: Improve filter results, weird stuff
                 desc = "Keymaps",
                 function() require("telescope.builtin").keymaps() end,
               },
@@ -269,7 +272,7 @@ return {
                 desc = "Refresh Sidebar",
                 function()
                   -- require("neo-tree.command").execute { action = "show" }
-                  vim.cmd.Neotree "dir=./" -- NOTE: sync up vim cwd with neotree
+                  vim.cmd.Neotree "dir=./" -- sync up vim cwd with neotree
                 end,
               },
               ["<Leader>to"] = {
@@ -291,11 +294,24 @@ return {
     },
   },
   {
+    -- Auto update imports after file rename
     "antosha417/nvim-lsp-file-operations",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-neo-tree/neo-tree.nvim",
     },
     config = function() require("lsp-file-operations").setup() end,
+  },
+  {
+    dev = true,
+    dir = "hover_clue",
+    opts = {},
+    keys = {
+      {
+        desc = "Toggle cursor hint",
+        "<Leader>xh",
+        function() require("hover-clue").toggle() end,
+      },
+    },
   },
 }

@@ -30,4 +30,8 @@ require("lazy").setup({
       },
     },
   },
+  dev = {
+    path = "~/.config/nvim/local-plugins",
+    fallback = false,
+  },
 } --[[@as LazyConfig]])
