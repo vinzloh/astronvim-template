@@ -28,6 +28,15 @@ return {
               require("resession").load(nil, { dir = "dirsession" })
             end,
           },
+          ["<Leader>k"] = {
+            -- TODO: Improve filter results, weird stuff
+            desc = "Keymaps",
+            function() require("telescope.builtin").keymaps() end,
+          },
+          ["<Leader>to"] = {
+            desc = "Open terminal cwd",
+            function() vim.fn.jobstart "alacritty" end,
+          },
         },
       },
 
@@ -124,6 +133,18 @@ return {
     "yioneko/nvim-vtsls",
     lazy = false,
     priority = 60,
+    keys = {
+      {
+        "<Leader>xc",
+        desc = "TypeScript: Restart Server",
+        function() vim.cmd.VtsExec "restart_tsserver" end,
+      },
+      {
+        "<Leader>xo",
+        desc = "TypeScript: Organize Imports",
+        function() vim.cmd.VtsExec "organize_imports" end,
+      },
+    },
   },
   {
     "jay-babu/mason-null-ls.nvim",
@@ -170,122 +191,17 @@ return {
     },
   },
   {
-    "folke/edgy.nvim",
-    enabled = false,
-    event = "InsertEnter",
-    init = function()
-      vim.opt.laststatus = 3
-      vim.opt.splitkeep = "screen"
-    end,
-    dependencies = {
-      {
-        "AstroNvim/astrocore",
-        opts = {
-          mappings = {
-            n = {
-              ["<Leader>e"] = {
-                function() require("edgy").toggle() end,
-                desc = "Toggle Sidebars",
-              },
-            },
-          },
-        },
-      },
-    },
-    opts = {
-      options = {
-        left = { size = 40 },
-        bottom = { size = 10 },
-        right = { size = 30 },
-        top = { size = 10 },
-      },
-      exit_when_last = true,
-      top = {},
-      bottom = {},
-      left = {
-        {
-          title = "Files",
-          ft = "neo-tree",
-          filter = function(buf) return vim.b[buf].neo_tree_source == "filesystem" end,
-          pinned = true,
-          open = "Neotree position=left filesystem",
-          size = { height = 0.5 },
-        },
-        {
-          title = "Git Status",
-          ft = "neo-tree",
-          filter = function(buf) return vim.b[buf].neo_tree_source == "git_status" end,
-          pinned = true,
-          open = "Neotree position=right git_status",
-        },
-        {
-          title = "Buffers",
-          ft = "neo-tree",
-          filter = function(buf) return vim.b[buf].neo_tree_source == "buffers" end,
-          pinned = true,
-          open = "Neotree position=top buffers",
-        },
-      },
-      right = {},
-      keys = {
-        -- increase width
-        ["<C-Right>"] = function(win) win:resize("width", 2) end,
-        -- decrease width
-        ["<C-Left>"] = function(win) win:resize("width", -2) end,
-        -- increase height
-        ["<C-Up>"] = function(win) win:resize("height", 2) end,
-        -- decrease height
-        ["<C-Down>"] = function(win) win:resize("height", -2) end,
-      },
-    },
-  },
-  {
     "nvim-neo-tree/neo-tree.nvim",
-    opts = {
-      -- NOTE: for edgy
-      -- source_selector = {
-      --   winbar = false,
-      --   statusline = false,
-      -- },
-
-      -- event_handlers = {
-      --   {
-      --     event = "vim_after_session_load",
-      --     handler = function()
-      --       vim.notify "vim_after_session_load"
-      --     end,
-      --   },
-      -- },
-    },
+    opts = {},
     dependencies = {
       {
         "AstroNvim/astrocore",
         opts = {
           mappings = {
             n = {
-              ["<Leader>k"] = {
-                -- TODO: Improve filter results, weird stuff
-                desc = "Keymaps",
-                function() require("telescope.builtin").keymaps() end,
-              },
               ["<Leader>o"] = {
                 desc = "Refresh Sidebar",
-                function()
-                  -- require("neo-tree.command").execute { action = "show" }
-                  vim.cmd.Neotree "dir=./" -- sync up vim cwd with neotree
-                end,
-              },
-              ["<Leader>to"] = {
-                desc = "Open terminal cwd",
-                function() vim.fn.jobstart "alacritty" end,
-              },
-              ["<Leader>xc"] = {
-                desc = "TypeScript: Restart Server",
-                function() vim.cmd.VtsExec "restart_tsserver" end,
-              },
-              ["<Leader>xo"] = {
-                desc = "TypeScript: Organize Imports",
-                function() vim.cmd.VtsExec "organize_imports" end,
+                function() vim.cmd.Neotree "dir=./" end, -- sync up vim cwd with neotree
               },
             },
           },
