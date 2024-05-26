@@ -37,6 +37,14 @@ return {
             desc = "Open terminal cwd",
             function() vim.fn.jobstart "alacritty" end,
           },
+          ["<C-[>"] = {
+            desc = "Previous buffer",
+            ":bp<cr>",
+          },
+          ["<C-]>"] = {
+            desc = "Next buffer",
+            ":bn<cr>",
+          },
         },
       },
 
